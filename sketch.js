@@ -1,14 +1,4 @@
 
-
-
-
-//note to self: double up on longer messages and change array numbers
-//note to self: change positions slightly for each message so that they are in line
-//note to self: randomise positions
-
-
-
-
 //All potential messages
 let messages = [
   'Please wait', //0
@@ -45,6 +35,17 @@ let messageCounter = 0;
 let accumulatedPeriod = 0;
 let periodMax = 75;
 
+//Sound
+let sound;
+
+////////////////////////////////////////////////////////////
+/////////////////////////PRELOAD////////////////////////////
+////////////////////////////////////////////////////////////
+
+function preload() {
+  sound = loadSound('assets/solet.wav');
+}
+
 
 ////////////////////////////////////////////////////////////
 ///////////////////////////SETUP////////////////////////////
@@ -53,6 +54,7 @@ let periodMax = 75;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   startSecond = second();
+  sound.play();
 }
 
 ////////////////////////////////////////////////////////////
