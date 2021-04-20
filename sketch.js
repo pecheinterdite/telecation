@@ -43,7 +43,7 @@ let sound;
 ////////////////////////////////////////////////////////////
 
 function preload() {
-  sound = loadSound('assets/solet.wav');
+  sound = loadSound('assets/solet.mp3');
 }
 
 
