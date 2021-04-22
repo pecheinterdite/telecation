@@ -66,8 +66,18 @@ let imageLoopY = 0;
 let targetSize = 100;
 let periodMax = 100; //Change this to change length of each individual message
 
-//Sound
+//Composition
 let sound;
+
+//Voicemails
+let vm1;
+let vm2;
+let vm3;
+let vm4;
+let vm5;
+let vm6;
+let vm7;
+let vm8;
 
 
 
@@ -81,10 +91,19 @@ let sound;
 
 
 function preload() {
-  //Preload the sound
+  //Preload the composition
   sound = loadSound('assets/solet.mp3');
   //Preload single file image
   single = loadImage('assets/single.png');
+  //Preload voicemails
+  vm1 = loadSound('assets/voicemails/VM_1.mp3');
+  vm2 = loadSound('assets/voicemails/VM_2.mp3');
+  vm3 = loadSound('assets/voicemails/VM_3.mp3');
+  vm4 = loadSound('assets/voicemails/VM_4.mp3');
+  vm5 = loadSound('assets/voicemails/VM_5.mp3');
+  vm6 = loadSound('assets/voicemails/VM_6.mp3');
+  vm7 = loadSound('assets/voicemails/VM_7.mp3');
+  vm8 = loadSound('assets/voicemails/VM_8.mp3');
 }
 
 
@@ -381,49 +400,49 @@ function mouseClicked() {
   if (mouseX >= 425 && mouseX <= 472 && mouseY >= 10 && mouseY <= 70) {
     console.log('File 1');
 
-    //Play voicemail 1
+    vm1.play();
 
     //1st row, 6th file
   } else if (mouseX >= 525 && mouseX <= 572 && mouseY >= 10 && mouseY <= 70) {
     console.log('File 2');
 
-    //Play voicemail 2
+    vm2.play();
 
     //1st row, 8th file
   } else if (mouseX >= 725 && mouseX <= 772 && mouseY >= 10 && mouseY <= 70) {
     console.log('File 3');
 
-    //Play voicemail 3
+    vm3.play();
 
     //2nd row, 2nd file
   } else if (mouseX >= 125 && mouseX <= 172 && mouseY >= 110 && mouseY <= 170) {
     console.log('File 4');
 
-    //Play voicemail 4
+    vm4.play();
 
     //2nd row, 4th file
   } else if (mouseX >= 325 && mouseX <= 372 && mouseY >= 110 && mouseY <= 170) {
     console.log('File 5');
 
-    //Play voicemail 5
+    vm5.play();
 
     //3rd row, 12th file
   } else if (mouseX >= 1125 && mouseX <= 1172 && mouseY >= 210 && mouseY <= 270) {
     console.log('File 6');
 
-    //Play voicemail 6
+    vm6.play();
 
     //4th row, 7th file
   } else if (mouseX >= 625 && mouseX <= 672 && mouseY >= 310 && mouseY <= 370) {
     console.log('File 7');
 
-    //Play voicemail 7
+    vm7.play();
 
     //5th row, 10th file
   } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 410 && mouseY <= 470) {
     console.log('File 8');
 
-    //Play voicemail 8
+    vm8.play();
   }
 }
 
