@@ -7,8 +7,6 @@
 ////////////////////////////////////////////////////////////
 
 //Finish composition
-//Less messages
-//Add voicemail files
 //Align files with assets
 
 ////////////////////////////////////////////////////////////
@@ -17,38 +15,133 @@
 
 //All potential messages
 let messages = [
+  //3.5 secs
   'Please wait',
   'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  //3.5 secs
   'Content loading',
   'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  //3.5 secds
   'Please wait',
   'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  //3.5 secs
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  //2 secs
   'Please hold the line',
+  'Please hold the line',
+  'Please hold the line',
+  'Please hold the line',
+  //2 secs
   'Content loading',
   'Content loading',
+  'Content loading',
+  'Content loading',
+  //2 secs
   'Your call is very important to us',
+  'Your call is very important to us',
+  'Your call is very important to us',
+  'Your call is very important to us',
+  //1 sec
   'No seriously',
+  'No seriously',
+  //2 secs
   'Your call is very important to us',
-  'How much longer is this going to take?',
+  'Your call is very important to us',
+  'Your call is very important to us',
+  'Your call is very important to us',
+  //3.5 secs
   'Please wait',
   'Please wait',
-  'I\'m not sure I can',
-  'well u kinda have to',
-  'Content loading',
-  'Content loading',
-  'waaaaaait a second',
-  'WAIT ONE SECOND',
-  'no wait',
-  'No seriously',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  //3.5 secs
   'Content loading?',
   'Content loading?',
-  'But how can content be loading?',
-  'wait ooooone second',
-  'the voicemails AAAARE the content',
-  'NOOOOO wait',
-  'there IIIS no content',
-  'wait a second',
-  'Call 020 388 05900'
+  'Content loading?',
+  'Content loading?',
+  'Content loading?',
+  'Content loading?',
+  'Content loading?',
+  //3.5 secs
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  //3.5 secs
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  'Content loading',
+  //3.5 secs
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  'Please wait',
+  //3.5 secs
+  'Content',
+  'Content',
+  'Content',
+  'Content',
+  'Content',
+  'Content',
+  'Content',
+  //3.5 secs
+  'Please',
+  'Please',
+  'Please',
+  'Please',
+  'Please',
+  'Please',
+  'Please',
+  //3.5 secs
+  'loading?',
+  'loading?',
+  'loading?',
+  'loading?',
+  'loading?',
+  'loading?',
+  'loading?',
+  //3.5 secs
+  'Wait',
+  'Wait',
+  'Wait',
+  'Wait',
+  'Wait',
+  'Wait',
+  'Wait'
 ];
 
 //Arrays
@@ -64,20 +157,28 @@ let state = 0;
 let imageLoopX = 0;
 let imageLoopY = 0;
 let targetSize = 100;
-let periodMax = 100; //Change this to change length of each individual message
+let periodMax = 27; //Change this to change length of each individual message - use 27 for 1 min
 
 //Composition
-let sound;
+let composition;
 
 //Voicemails
 let vm1;
+let clickVM1 = 0;
 let vm2;
+let clickVM2 = 0;
 let vm3;
+let clickVM3 = 0;
 let vm4;
+let clickVM4 = 0;
 let vm5;
+let clickVM5 = 0;
 let vm6;
+let clickVM6 = 0;
 let vm7;
+let clickVM7 = 0;
 let vm8;
+let clickVM8 = 0;
 
 
 
@@ -92,9 +193,10 @@ let vm8;
 
 function preload() {
   //Preload the composition
-  sound = loadSound('assets/solet.mp3');
-  //Preload single file image
+  composition = loadSound('assets/TELECATION.mp3');
+  //Preload single file images
   single = loadImage('assets/single.png');
+  greyed = loadImage('assets/greyed_single.png');
   //Preload voicemails
   vm1 = loadSound('assets/voicemails/VM_1.mp3');
   vm2 = loadSound('assets/voicemails/VM_2.mp3');
@@ -127,7 +229,7 @@ function setup() {
   startSecond = second();
 
   //Begin playing sound
-  sound.play();
+  composition.play();
 
   //Create 15 (arbitrary number) random positions onscreen for the text to jump between
   //These are pushed as nested arrays to the positions array
@@ -314,7 +416,8 @@ function draw() {
   else if (state == 1) {
     background(255);
     textSize(100);
-    text('020 388 05900', width / 2 - 320, height / 2);
+    text('Call', width / 2 - 320, height / 2 - 60);
+    text('020 388 05900', width / 2 - 320, height / 2 + 60);
     state = 2;
   }
 
@@ -357,18 +460,65 @@ function draw() {
 
 
   //State 3 redraws all of the files that were 'loaded' in the previous state
+  //If a file contains a clickable voicemail, it is loaded grey
   else if (state == 3) {
     frameRate(60);
     background(255);
-    text('020 388 05900', width / 2 - 320, height / 2);
+    text('Call', width / 2 - 320, height / 2 - 60);
+    text('020 388 05900', width / 2 - 320, height / 2 + 60);
+
     for (let i = 0; i < width; i += targetSize) {
       for (let j = 0; j < height; j += targetSize) {
-        single.resize(targetSize, targetSize);
-        image(single, i, j);
-        textSize(50);
+
+        //Voicemail 1
+        if (i == 400 && j == 0) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //Voicemail 2
+        } else if (i == 500 && j == 0) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //Voicemail 3
+        } else if (i == 700 && j == 0) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //Voicemail 4
+        } else if (i == 100 && j == 100) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //Voicemail 5
+        } else if (i == 300 && j == 100) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //Voicemail 6
+        } else if (i == 1100 && j == 200) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //Voicemail 7
+        } else if (i == 600 && j == 300) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //Voicemail 8
+        } else if (i == 900 && j == 400) {
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //All non-clickable files
+        } else {
+          single.resize(targetSize, targetSize);
+          image(single, i, j);
+        }
       }
-      state = 4;
     }
+    state = 4;
+    composition.stop();
   }
 
 
@@ -396,55 +546,90 @@ function draw() {
 
 
 function mouseClicked() {
+
   //1st row, 5th file
   if (mouseX >= 425 && mouseX <= 472 && mouseY >= 10 && mouseY <= 70) {
-    console.log('File 1');
-
-    vm1.play();
+    if (clickVM1 == 0) {
+      vm1.play();
+      clickVM1 = 1;
+    } else {
+      vm1.stop();
+      clickVM1 = 0;
+    }
 
     //1st row, 6th file
   } else if (mouseX >= 525 && mouseX <= 572 && mouseY >= 10 && mouseY <= 70) {
-    console.log('File 2');
-
-    vm2.play();
+    if (clickVM2 == 0) {
+      vm2.play();
+      clickVM2 = 1;
+    } else {
+      vm2.stop();
+      clickVM2 = 0;
+    }
 
     //1st row, 8th file
   } else if (mouseX >= 725 && mouseX <= 772 && mouseY >= 10 && mouseY <= 70) {
-    console.log('File 3');
-
-    vm3.play();
+    if (clickVM3 == 0) {
+      vm3.play();
+      clickVM3 = 1;
+    } else {
+      vm3.stop();
+      clickVM3 = 0;
+    }
 
     //2nd row, 2nd file
   } else if (mouseX >= 125 && mouseX <= 172 && mouseY >= 110 && mouseY <= 170) {
-    console.log('File 4');
-
-    vm4.play();
+    if (clickVM4 == 0) {
+      vm4.play();
+      clickVM4 = 4;
+    } else {
+      vm4.stop();
+      clickVM4 = 0;
+    }
 
     //2nd row, 4th file
   } else if (mouseX >= 325 && mouseX <= 372 && mouseY >= 110 && mouseY <= 170) {
-    console.log('File 5');
-
-    vm5.play();
+    if (clickVM5 == 0) {
+      vm5.play();
+      clickVM5 = 1;
+    } else {
+      vm5.stop();
+      clickVM5 = 0;
+    }
 
     //3rd row, 12th file
   } else if (mouseX >= 1125 && mouseX <= 1172 && mouseY >= 210 && mouseY <= 270) {
-    console.log('File 6');
-
-    vm6.play();
+    if (clickVM6 == 0) {
+      vm6.play();
+      clickVM6 = 1;
+    } else {
+      vm6.stop();
+      clickVM6 = 0;
+    }
 
     //4th row, 7th file
   } else if (mouseX >= 625 && mouseX <= 672 && mouseY >= 310 && mouseY <= 370) {
-    console.log('File 7');
-
-    vm7.play();
+    if (clickVM7 == 0) {
+      vm7.play();
+      clickVM7 = 1;
+    } else {
+      vm7.stop();
+      clickVM7 = 0;
+    }
 
     //5th row, 10th file
   } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 410 && mouseY <= 470) {
-    console.log('File 8');
-
-    vm8.play();
+    if (clickVM8 == 0) {
+      vm8.play();
+      clickVM8 = 1;
+    } else {
+      vm8.stop();
+      clickVM8 = 0;
+    }
   }
 }
+
+
 
 
 
