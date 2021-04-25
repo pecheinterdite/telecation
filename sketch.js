@@ -13,7 +13,7 @@ let state = 0;
 let imageLoopX = 0;
 let imageLoopY = 0;
 let targetSize = 100;
-let barLength = 200; //Change to change length of loading period
+let barLength = 2500; //Change to change length of loading period
 
 //Composition
 let composition;
