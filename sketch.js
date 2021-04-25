@@ -3,13 +3,6 @@
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
-/////////////////////TO DO//////////////////////////////////
-////////////////////////////////////////////////////////////
-
-//Finish composition
-//Align files with assets
-
-////////////////////////////////////////////////////////////
 /////////////////////DECLARATIONS///////////////////////////
 ////////////////////////////////////////////////////////////
 
@@ -225,6 +218,8 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+
+
   //Define the second the setup function is run
   startSecond = second();
 
@@ -233,6 +228,11 @@ function setup() {
 
   //Create 15 (arbitrary number) random positions onscreen for the text to jump between
   //These are pushed as nested arrays to the positions array
+  //No longer required after it was decided text was not necessary
+  //however the code remains as it might be helpful in future +
+  //much of the later logic supporting the loading bar requires
+  //the groundwork of the text generation
+
   for (let i = 0; i < 15; i++) {
 
     //To prevent messages appearing in the loading bar area, the display
@@ -271,7 +271,6 @@ function setup() {
 
     }
   }
-
   //For every message, choose a random integer up to the number of available positions
   //These are pushed to the "randomised" array
   for (let i = 0; i < messages.length; i++) {
@@ -295,8 +294,15 @@ function setup() {
 
 
 function draw() {
-  if (state == 0) {
-    background(255);
+
+  if (state == 0){
+    background(0);
+    fill(255);
+    textSize(40);
+    text("Click to start Telecation", width/2-200, height/2);
+  }
+  else if (state == 1) {
+    background(0);
 
     //Sets currentSecond as the second every time draw loop is run
     currentSecond = second();
@@ -342,7 +348,7 @@ function draw() {
     line(400, height / 2, width - 400, height / 2);
 
     //Loading section of bar
-    stroke(0);
+    stroke(255);
     line(400, height / 2, slidX, height / 2);
 
 
@@ -362,9 +368,10 @@ function draw() {
     ///////////////////////TEXT/////////////////////////////////
     ////////////////////////////////////////////////////////////
 
-    stroke(0);
+    stroke(255);
     strokeWeight(0.5);
     textSize(15);
+    fill(255);
 
     //Whenever the loops in the current period hits the maximum value, the next message
     //is triggered
@@ -377,19 +384,21 @@ function draw() {
     //Central messages
     if (messages[messageCounter] == 'Please wait' ||
       messages[messageCounter] == 'Content loading') {
-      text(messages[messageCounter], width / 2 - 40, height / 2 + 75);
+        //Text printing is commented out for now
+      // text(messages[messageCounter], width / 2 - 40, height / 2 + 75);
 
       //Last message triggers loaded function
     } else if (messageCounter == (messages.length - 1)) {
       //Trigger loaded state
-      state = 1;
+      state = 2;
 
       //If the message isn't one of the central ones, it takes its position from its equivalent
       //entry in the "randomised" array, which in turn relates to one of the nested arrays in
       //the "positions" array
     } else {
       randomisedChoice = randomised[messageCounter];
-      text(messages[messageCounter], positions[randomisedChoice][0], positions[randomisedChoice][1]);
+      //Text printing is commented out for now
+      // text(messages[messageCounter], positions[randomisedChoice][0], positions[randomisedChoice][1]);
     }
   }
 
@@ -408,29 +417,30 @@ function draw() {
 
 
   ////////////////////////////////////////////////////////////
-  //////////////////////STATE 1///////////////////////////////
+  //////////////////////STATE 2///////////////////////////////
   ////////////////////////////////////////////////////////////
 
-  //State 1 just draws over the previous frame, and is seperate from State 2 so that
+  //State 2 just draws over the previous frame, and is seperate from State 2 so that
   //the loop does not continually draw over the 'loading' files
-  else if (state == 1) {
+  else if (state == 2) {
     background(255);
     textSize(100);
+    fill(0);
     text('Call', width / 2 - 320, height / 2 - 60);
     text('020 388 05900', width / 2 - 320, height / 2 + 60);
-    state = 2;
+    state = 3;
   }
 
 
   ////////////////////////////////////////////////////////////
-  //////////////////////STATE 2///////////////////////////////
+  //////////////////////STATE 3///////////////////////////////
   ////////////////////////////////////////////////////////////
 
-  //State 2 draws the loading files one by one
+  //State 3 draws the loading files one by one
   //This is just for show - they will be drawn over again in the next state
   //using a much tidier nested for loop
 
-  else if (state == 2) {
+  else if (state == 3) {
     //Slow this bit down
     frameRate(20);
     if (imageLoopX < width) {
@@ -450,18 +460,18 @@ function draw() {
     //When Y reaches the end of the screen
     if (imageLoopY >= height) {
       //State 3 is triggered
-      state = 3;
+      state = 4;
     }
   }
 
   ////////////////////////////////////////////////////////////
-  //////////////////////STATE 3///////////////////////////////
+  //////////////////////STATE 4///////////////////////////////
   ////////////////////////////////////////////////////////////
 
 
-  //State 3 redraws all of the files that were 'loaded' in the previous state
+  //State 4 redraws all of the files that were 'loaded' in the previous state
   //If a file contains a clickable voicemail, it is loaded grey
-  else if (state == 3) {
+  else if (state == 4) {
     frameRate(60);
     background(255);
     text('Call', width / 2 - 320, height / 2 - 60);
@@ -517,17 +527,17 @@ function draw() {
         }
       }
     }
-    state = 4;
-    composition.stop();
+    state = 5;
+    composition.fade(0, 2);
   }
 
 
 
   ////////////////////////////////////////////////////////////
-  //////////////////////STATE 4///////////////////////////////
+  //////////////////////STATE 5///////////////////////////////
   ////////////////////////////////////////////////////////////
 
-  else if (state == 4) {
+  else if (state == 5) {
   }
 
 
@@ -547,6 +557,15 @@ function draw() {
 
 function mouseClicked() {
 
+
+  //Some browsers require a user interaction to allow audio playback
+  if (state == 0){
+    userStartAudio();
+    state = 1;
+  }
+
+  //In the loaded state, the following clicks will work
+  else if (state == 5){
   //1st row, 5th file
   if (mouseX >= 425 && mouseX <= 472 && mouseY >= 10 && mouseY <= 70) {
     if (clickVM1 == 0) {
@@ -628,6 +647,11 @@ function mouseClicked() {
     }
   }
 }
+}
+
+
+
+
 
 
 
