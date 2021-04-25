@@ -6,151 +6,14 @@
 /////////////////////DECLARATIONS///////////////////////////
 ////////////////////////////////////////////////////////////
 
-//All potential messages
-let messages = [
-  //3.5 secs
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  //3.5 secs
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  //3.5 secds
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  //3.5 secs
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  //2 secs
-  'Please hold the line',
-  'Please hold the line',
-  'Please hold the line',
-  'Please hold the line',
-  //2 secs
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  //2 secs
-  'Your call is very important to us',
-  'Your call is very important to us',
-  'Your call is very important to us',
-  'Your call is very important to us',
-  //1 sec
-  'No seriously',
-  'No seriously',
-  //2 secs
-  'Your call is very important to us',
-  'Your call is very important to us',
-  'Your call is very important to us',
-  'Your call is very important to us',
-  //3.5 secs
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  //3.5 secs
-  'Content loading?',
-  'Content loading?',
-  'Content loading?',
-  'Content loading?',
-  'Content loading?',
-  'Content loading?',
-  'Content loading?',
-  //3.5 secs
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  //3.5 secs
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  'Content loading',
-  //3.5 secs
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  'Please wait',
-  //3.5 secs
-  'Content',
-  'Content',
-  'Content',
-  'Content',
-  'Content',
-  'Content',
-  'Content',
-  //3.5 secs
-  'Please',
-  'Please',
-  'Please',
-  'Please',
-  'Please',
-  'Please',
-  'Please',
-  //3.5 secs
-  'loading?',
-  'loading?',
-  'loading?',
-  'loading?',
-  'loading?',
-  'loading?',
-  'loading?',
-  //3.5 secs
-  'Wait',
-  'Wait',
-  'Wait',
-  'Wait',
-  'Wait',
-  'Wait',
-  'Wait'
-];
-
-//Arrays
-let randomised = [];
-let positions = [];
-
 //Variables
-let startSecond, currentSecond, positionChoice, randomisedChoice;
+let startSecond, currentSecond;
 let accumulatedSeconds = 0;
-let messageCounter = 0;
-let accumulatedPeriod = 0;
 let state = 0;
 let imageLoopX = 0;
 let imageLoopY = 0;
 let targetSize = 100;
-let periodMax = 27; //Change this to change length of each individual message - use 27 for 1 min
+let barLength = 200; //Change to change length of loading period
 
 //Composition
 let composition;
@@ -173,16 +36,9 @@ let clickVM7 = 0;
 let vm8;
 let clickVM8 = 0;
 
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////
 /////////////////////////PRELOAD////////////////////////////
 ////////////////////////////////////////////////////////////
-
 
 function preload() {
   //Preload the composition
@@ -200,17 +56,6 @@ function preload() {
   vm7 = loadSound('assets/voicemails/VM_7.mp3');
   vm8 = loadSound('assets/voicemails/VM_8.mp3');
 }
-
-
-
-
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////
 ///////////////////////////SETUP////////////////////////////
 ////////////////////////////////////////////////////////////
@@ -218,89 +63,27 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-
-
   //Define the second the setup function is run
   startSecond = second();
 
   //Begin playing sound
   composition.play();
 
-  //Create 15 (arbitrary number) random positions onscreen for the text to jump between
-  //These are pushed as nested arrays to the positions array
-  //No longer required after it was decided text was not necessary
-  //however the code remains as it might be helpful in future +
-  //much of the later logic supporting the loading bar requires
-  //the groundwork of the text generation
-
-  for (let i = 0; i < 15; i++) {
-
-    //To prevent messages appearing in the loading bar area, the display
-    //is split into 4 quadrants. The random number selection below will only
-    //choose co-ordinates within the selected quadrant to prevent overlapping
-    //with the loading bar.
-    let quadrantSelect = int(random(0, 3));
-
-    //Top left
-    if (quadrantSelect == 0) {
-      let nestX = random(10, width / 2);
-      let nestY = random(10, (height / 2) - 50);
-      let nest = [nestX, nestY];
-      positions.push(nest);
-
-      //Top right
-    } else if (quadrantSelect == 1) {
-      let nestX = random(width / 2, width - 200);
-      let nestY = random(10, (height / 2) - 50);
-      let nest = [nestX, nestY];
-      positions.push(nest);
-
-      //Bottom left
-    } else if (quadrantSelect == 2) {
-      let nestX = random(10, width / 2);
-      let nestY = random((height / 2) + 50, height - 10);
-      let nest = [nestX, nestY];
-      positions.push(nest);
-
-      //Bottom right
-    } else if (quadrantSelect == 3) {
-      let nestX = random(width / 2, width - 200);
-      let nestY = random((height / 2) + 50, height - 10);
-      let nest = [nestX, nestY];
-      positions.push(nest);
-
-    }
-  }
-  //For every message, choose a random integer up to the number of available positions
-  //These are pushed to the "randomised" array
-  for (let i = 0; i < messages.length; i++) {
-    positionChoice = (int(random(positions.length)));
-    randomised.push(positionChoice);
-  }
 }
-
-
-
-
-
-
-
-
 
 ////////////////////////////////////////////////////////////
 ///////////////////////////DRAW/////////////////////////////
 ////////////////////////////////////////////////////////////
 
-
-
 function draw() {
 
-  if (state == 0){
+  if (state == 0) {
     background(0);
     fill(255);
     textSize(40);
-    text("Click to start Telecation", width/2-200, height/2);
+    text("Click to start Telecation", width / 2 - 200, height / 2);
   }
+
   else if (state == 1) {
     background(0);
 
@@ -311,27 +94,11 @@ function draw() {
     //of times the draw loop has been run.
     if (currentSecond != startSecond) {
       accumulatedSeconds++;
-      accumulatedPeriod++;
+
       //This is so that when the seconds cycles back to the second on which 
       //the script is loaded, the progress bar doesn't pause for 1 second
       startSecond = -1;
-      //If the accumulatedPeriod value hits the maximum value for each individual period of text,
-      //it resets to zero
-      if (accumulatedPeriod == periodMax) {
-        accumulatedPeriod = 0;
-      }
     }
-
-
-
-
-
-
-
-
-
-
-
 
     ////////////////////////////////////////////////////////////
     ///////////////////////PROGRESS BAR/////////////////////////
@@ -340,7 +107,7 @@ function draw() {
     //Position
     //slidX variable maps accumulated seconds from between zero and the maximum period time for
     //every message in the messages array to be displayed to the screen size +- 50px
-    let slidX = map(accumulatedSeconds, 0, messages.length * periodMax, 400, width - 400, true);
+    let slidX = map(accumulatedSeconds, 0, barLength, 400, width - 400, true);
     strokeWeight(50);
 
     //Ghost bar
@@ -351,76 +118,20 @@ function draw() {
     stroke(255);
     line(400, height / 2, slidX, height / 2);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ////////////////////////////////////////////////////////////
-    ///////////////////////TEXT/////////////////////////////////
-    ////////////////////////////////////////////////////////////
-
-    stroke(255);
-    strokeWeight(0.5);
-    textSize(15);
-    fill(255);
-
-    //Whenever the loops in the current period hits the maximum value, the next message
-    //is triggered
-    if (accumulatedPeriod == periodMax - 1) {
-      messageCounter++;
-    }
-
-    //Position as determined by which message in the array is being displayed
-
-    //Central messages
-    if (messages[messageCounter] == 'Please wait' ||
-      messages[messageCounter] == 'Content loading') {
-        //Text printing is commented out for now
-      // text(messages[messageCounter], width / 2 - 40, height / 2 + 75);
-
-      //Last message triggers loaded function
-    } else if (messageCounter == (messages.length - 1)) {
-      //Trigger loaded state
+    if (slidX == width - 400) {
       state = 2;
-
-      //If the message isn't one of the central ones, it takes its position from its equivalent
-      //entry in the "randomised" array, which in turn relates to one of the nested arrays in
-      //the "positions" array
-    } else {
-      randomisedChoice = randomised[messageCounter];
-      //Text printing is commented out for now
-      // text(messages[messageCounter], positions[randomisedChoice][0], positions[randomisedChoice][1]);
     }
   }
-
-
-
-
-
-
-
 
   ////////////////////////////////////////////////////////////
   ///////////////////////LOADED///////////////////////////////
   ////////////////////////////////////////////////////////////
 
-
-
-
   ////////////////////////////////////////////////////////////
   //////////////////////STATE 2///////////////////////////////
   ////////////////////////////////////////////////////////////
 
-  //State 2 just draws over the previous frame, and is seperate from State 2 so that
+  //State 2 just draws over the previous frame, and is seperate from State 3 so that
   //the loop does not continually draw over the 'loading' files
   else if (state == 2) {
     background(255);
@@ -430,7 +141,6 @@ function draw() {
     text('020 388 05900', width / 2 - 320, height / 2 + 60);
     state = 3;
   }
-
 
   ////////////////////////////////////////////////////////////
   //////////////////////STATE 3///////////////////////////////
@@ -467,7 +177,6 @@ function draw() {
   ////////////////////////////////////////////////////////////
   //////////////////////STATE 4///////////////////////////////
   ////////////////////////////////////////////////////////////
-
 
   //State 4 redraws all of the files that were 'loaded' in the previous state
   //If a file contains a clickable voicemail, it is loaded grey
@@ -520,6 +229,8 @@ function draw() {
           greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
+          //Add more grey images here...
+
           //All non-clickable files
         } else {
           single.resize(targetSize, targetSize);
@@ -528,10 +239,10 @@ function draw() {
       }
     }
     state = 5;
+  
+    //Fade out composition
     composition.fade(0, 2);
   }
-
-
 
   ////////////////////////////////////////////////////////////
   //////////////////////STATE 5///////////////////////////////
@@ -540,124 +251,107 @@ function draw() {
   else if (state == 5) {
   }
 
-
-
   //CLOSE DRAW LOOP HERE
 }
-
-
-
-
-
 
 ////////////////////////////////////////////////////////////
 /////////////////////MOUSE CLICKED//////////////////////////
 ////////////////////////////////////////////////////////////
 
-
 function mouseClicked() {
 
-
   //Some browsers require a user interaction to allow audio playback
-  if (state == 0){
+  if (state == 0) {
     userStartAudio();
     state = 1;
   }
 
   //In the loaded state, the following clicks will work
-  else if (state == 5){
-  //1st row, 5th file
-  if (mouseX >= 425 && mouseX <= 472 && mouseY >= 10 && mouseY <= 70) {
-    if (clickVM1 == 0) {
-      vm1.play();
-      clickVM1 = 1;
-    } else {
-      vm1.stop();
-      clickVM1 = 0;
-    }
+  else if (state == 5) {
+    
+    //1st row, 5th file
+    if (mouseX >= 425 && mouseX <= 472 && mouseY >= 10 && mouseY <= 70) {
+      if (clickVM1 == 0) {
+        vm1.play();
+        clickVM1 = 1;
+      } else {
+        vm1.stop();
+        clickVM1 = 0;
+      }
 
-    //1st row, 6th file
-  } else if (mouseX >= 525 && mouseX <= 572 && mouseY >= 10 && mouseY <= 70) {
-    if (clickVM2 == 0) {
-      vm2.play();
-      clickVM2 = 1;
-    } else {
-      vm2.stop();
-      clickVM2 = 0;
-    }
+      //1st row, 6th file
+    } else if (mouseX >= 525 && mouseX <= 572 && mouseY >= 10 && mouseY <= 70) {
+      if (clickVM2 == 0) {
+        vm2.play();
+        clickVM2 = 1;
+      } else {
+        vm2.stop();
+        clickVM2 = 0;
+      }
 
-    //1st row, 8th file
-  } else if (mouseX >= 725 && mouseX <= 772 && mouseY >= 10 && mouseY <= 70) {
-    if (clickVM3 == 0) {
-      vm3.play();
-      clickVM3 = 1;
-    } else {
-      vm3.stop();
-      clickVM3 = 0;
-    }
+      //1st row, 8th file
+    } else if (mouseX >= 725 && mouseX <= 772 && mouseY >= 10 && mouseY <= 70) {
+      if (clickVM3 == 0) {
+        vm3.play();
+        clickVM3 = 1;
+      } else {
+        vm3.stop();
+        clickVM3 = 0;
+      }
 
-    //2nd row, 2nd file
-  } else if (mouseX >= 125 && mouseX <= 172 && mouseY >= 110 && mouseY <= 170) {
-    if (clickVM4 == 0) {
-      vm4.play();
-      clickVM4 = 4;
-    } else {
-      vm4.stop();
-      clickVM4 = 0;
-    }
+      //2nd row, 2nd file
+    } else if (mouseX >= 125 && mouseX <= 172 && mouseY >= 110 && mouseY <= 170) {
+      if (clickVM4 == 0) {
+        vm4.play();
+        clickVM4 = 4;
+      } else {
+        vm4.stop();
+        clickVM4 = 0;
+      }
 
-    //2nd row, 4th file
-  } else if (mouseX >= 325 && mouseX <= 372 && mouseY >= 110 && mouseY <= 170) {
-    if (clickVM5 == 0) {
-      vm5.play();
-      clickVM5 = 1;
-    } else {
-      vm5.stop();
-      clickVM5 = 0;
-    }
+      //2nd row, 4th file
+    } else if (mouseX >= 325 && mouseX <= 372 && mouseY >= 110 && mouseY <= 170) {
+      if (clickVM5 == 0) {
+        vm5.play();
+        clickVM5 = 1;
+      } else {
+        vm5.stop();
+        clickVM5 = 0;
+      }
 
-    //3rd row, 12th file
-  } else if (mouseX >= 1125 && mouseX <= 1172 && mouseY >= 210 && mouseY <= 270) {
-    if (clickVM6 == 0) {
-      vm6.play();
-      clickVM6 = 1;
-    } else {
-      vm6.stop();
-      clickVM6 = 0;
-    }
+      //3rd row, 12th file
+    } else if (mouseX >= 1125 && mouseX <= 1172 && mouseY >= 210 && mouseY <= 270) {
+      if (clickVM6 == 0) {
+        vm6.play();
+        clickVM6 = 1;
+      } else {
+        vm6.stop();
+        clickVM6 = 0;
+      }
 
-    //4th row, 7th file
-  } else if (mouseX >= 625 && mouseX <= 672 && mouseY >= 310 && mouseY <= 370) {
-    if (clickVM7 == 0) {
-      vm7.play();
-      clickVM7 = 1;
-    } else {
-      vm7.stop();
-      clickVM7 = 0;
-    }
+      //4th row, 7th file
+    } else if (mouseX >= 625 && mouseX <= 672 && mouseY >= 310 && mouseY <= 370) {
+      if (clickVM7 == 0) {
+        vm7.play();
+        clickVM7 = 1;
+      } else {
+        vm7.stop();
+        clickVM7 = 0;
+      }
 
-    //5th row, 10th file
-  } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 410 && mouseY <= 470) {
-    if (clickVM8 == 0) {
-      vm8.play();
-      clickVM8 = 1;
-    } else {
-      vm8.stop();
-      clickVM8 = 0;
+      //5th row, 10th file
+    } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 410 && mouseY <= 470) {
+      if (clickVM8 == 0) {
+        vm8.play();
+        clickVM8 = 1;
+      } else {
+        vm8.stop();
+        clickVM8 = 0;
+
+        //Add more voicemail files here...
+
+
+      }
     }
   }
 }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
