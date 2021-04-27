@@ -2,6 +2,9 @@
 /////////////////////////TELECATION/////////////////////////
 ////////////////////////////////////////////////////////////
 
+//ADDING NEW VOICEMAILS ===== FOLLOW ++++++++ SYMBOL ++++++++++
+//++++++++ 6-STEP PROCESS ++++++++++//
+
 ////////////////////////////////////////////////////////////
 /////////////////////DECLARATIONS///////////////////////////
 ////////////////////////////////////////////////////////////
@@ -13,7 +16,7 @@ let state = 0;
 let imageLoopX = 0;
 let imageLoopY = 0;
 let targetSize = 100;
-let barLength = 3500; //Change to change length of loading period
+let barLength = 3500; //Change to change length of loading period (use 3500)
 let speed = 0.5; //Speed of files jittering
 let single;
 let greyed;
@@ -39,6 +42,12 @@ let vm7;
 let clickVM7 = 0;
 let vm8;
 let clickVM8 = 0;
+let vm9;
+let clickVM9 = 0;
+let vm10;
+let clickVM10 = 0;
+
+//++++++++ STEP 1 - DECLARE NEW VARIABLES ++++++++++
 
 ////////////////////////////////////////////////////////////
 /////////////////////////PRELOAD////////////////////////////
@@ -60,6 +69,10 @@ function preload() {
   vm6 = loadSound('assets/voicemails/VM_6.mp3');
   vm7 = loadSound('assets/voicemails/VM_7.mp3');
   vm8 = loadSound('assets/voicemails/VM_8.mp3');
+  vm9 = loadSound('assets/voicemails/VM_9.mp3');
+  vm10 = loadSound('assets/voicemails/VM_10.mp3');
+
+  //++++++++ STEP 2 - LOAD NEW FILES ++++++++++
 }
 
 ////////////////////////////////////////////////////////////
@@ -72,8 +85,6 @@ function setup() {
   //Define the second the setup function is run
   startSecond = second();
 
-  //Begin playing sound
-  composition.play();
 }
 
 ////////////////////////////////////////////////////////////
@@ -233,12 +244,23 @@ function draw() {
           image(greyed, i, j);
 
           //Voicemail 8
-        } else if (i == 900 && j == 400) {
+        } else if (i == 100 && j == 400) {
           greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
-          //Add more grey images here...
-          ////////////////////////////////////////////////////////////
+          //Voicemail 9
+        } else if (i == 400 && j == 400){
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+        
+        //Voicemail 10
+        } else if (i == 900 && j == 500){
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //++++++++ STEP 3 - CHOOSE POSITION FOR GREY ICON ++++++++++
+          //++++++++ i = X, j = Y ++++++++++
+          //++++++++ 900, 500 is 10th column, 6th row  ++++++++++
 
           //All non-clickable files
         } else {
@@ -314,12 +336,21 @@ function draw() {
           image(greyed, i, j);
 
           //Voicemail 8
-        } else if (i == 900 && j == 400) {
+        } else if (i == 100 && j == 400) {
           greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
-          //Add more grey images here...
-          ////////////////////////////////////////////////////////////
+          //Voicemail 9
+        } else if (i == 400 && j == 400){
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+        
+        //Voicemail 10
+        } else if (i == 900 && j == 500){
+          greyed.resize(targetSize, targetSize);
+          image(greyed, i, j);
+
+          //++++++++ STEP 4 - REPEAT STEP 3 ++++++++++
 
           //All non-clickable files
         } else {
@@ -347,6 +378,10 @@ function mouseClicked() {
   //Some browsers require a user interaction to allow audio playback
   if (state == 0) {
     userStartAudio();
+
+    //Begin playing sound
+    composition.play();
+
     state = 1;
   }
 
@@ -358,7 +393,7 @@ function mouseClicked() {
   //A second click stops it
   else if (state == 4) {
 
-    //1st row, 5th file
+    //Voicemail 1
     if (mouseX >= 425 && mouseX <= 472 && mouseY >= 10 && mouseY <= 70) {
       if (clickVM1 == 0) {
         vm1.play();
@@ -368,7 +403,7 @@ function mouseClicked() {
         clickVM1 = 0;
       }
 
-      //1st row, 6th file
+      //Voicemail 2
     } else if (mouseX >= 525 && mouseX <= 572 && mouseY >= 10 && mouseY <= 70) {
       if (clickVM2 == 0) {
         vm2.play();
@@ -378,7 +413,7 @@ function mouseClicked() {
         clickVM2 = 0;
       }
 
-      //1st row, 8th file
+      //Voicemail 3
     } else if (mouseX >= 725 && mouseX <= 772 && mouseY >= 10 && mouseY <= 70) {
       if (clickVM3 == 0) {
         vm3.play();
@@ -388,7 +423,7 @@ function mouseClicked() {
         clickVM3 = 0;
       }
 
-      //2nd row, 2nd file
+      //Voicemail 4
     } else if (mouseX >= 125 && mouseX <= 172 && mouseY >= 110 && mouseY <= 170) {
       if (clickVM4 == 0) {
         vm4.play();
@@ -398,7 +433,7 @@ function mouseClicked() {
         clickVM4 = 0;
       }
 
-      //2nd row, 4th file
+      //Voicemail 5
     } else if (mouseX >= 325 && mouseX <= 372 && mouseY >= 110 && mouseY <= 170) {
       if (clickVM5 == 0) {
         vm5.play();
@@ -408,7 +443,7 @@ function mouseClicked() {
         clickVM5 = 0;
       }
 
-      //3rd row, 12th file
+      //Voicemail 6
     } else if (mouseX >= 1125 && mouseX <= 1172 && mouseY >= 210 && mouseY <= 270) {
       if (clickVM6 == 0) {
         vm6.play();
@@ -418,7 +453,7 @@ function mouseClicked() {
         clickVM6 = 0;
       }
 
-      //4th row, 7th file
+      //Voicemail 7
     } else if (mouseX >= 625 && mouseX <= 672 && mouseY >= 310 && mouseY <= 370) {
       if (clickVM7 == 0) {
         vm7.play();
@@ -428,8 +463,8 @@ function mouseClicked() {
         clickVM7 = 0;
       }
 
-      //5th row, 10th file
-    } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 410 && mouseY <= 470) {
+      //Voicemail 8
+    } else if (mouseX >= 125 && mouseX <= 172 && mouseY >= 410 && mouseY <= 470) {
       if (clickVM8 == 0) {
         vm8.play();
         clickVM8 = 1;
@@ -437,13 +472,33 @@ function mouseClicked() {
         vm8.stop();
         clickVM8 = 0;
       }
-    }
 
-    //Add more voicemail files here...
-    ////////////////////////////////////////////////////////////
+      //Voicemail 9
+    } else if (mouseX >= 425 && mouseX <= 472 && mouseY >= 410 && mouseY <= 470) {
+      if (clickVM9 == 0) {
+        vm9.play();
+        clickVM9 = 1;
+      } else {
+        vm9.stop();
+        clickVM9 = 0;
+      }
+
+      //Voicemail 10
+    } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 510 && mouseY <= 570) {
+      if (clickVM10 == 0) {
+        vm10.play();
+        clickVM10 = 1;
+      } else {
+        vm10.stop();
+        clickVM10 = 0;
+      }
+
+      //++++++++ STEP 5 - PLAY/STOP FUNCTION ++++++++++
+      //++++++++ i = 100 y = 100 from the image coordinates would translate to ++++++++++
+      //++++++++ X: 125 - 172 /// Y: 110 - 170 ++++++++++
 
     //If toggle button is clicked in playback state, move to download state
-    else if (mouseX > width - 200 && mouseX < width - 150 && mouseY > height - 200 && mouseY < height - 150) {
+    } else if (mouseX > width - 200 && mouseX < width - 150 && mouseY > height - 200 && mouseY < height - 150) {
       state = 5;
     }
   }
@@ -486,11 +541,16 @@ function mouseClicked() {
     } else if (mouseX >= 625 && mouseX <= 672 && mouseY >= 310 && mouseY <= 370) {
       vm7.save('vm7');
       //5th row, 10th file
-    } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 410 && mouseY <= 470) {
+    } else if (mouseX >= 125 && mouseX <= 172 && mouseY >= 410 && mouseY <= 470) {
       vm8.save('vm8');
+    } else if (mouseX >= 425 && mouseX <= 472 && mouseY >= 410 && mouseY <= 470){
+      vm9.save('vm9');
+    } else if (mouseX >= 925 && mouseX <= 972 && mouseY >= 510 && mouseY <= 570){
+      vm10.save('vm10');
     }
-    //Add more download files here...
-    ////////////////////////////////////////////////////////////
+
+    //++++++++ STEP 6 - SAVE FUNCTION ++++++++++
+    //++++++++ Same coorindates as step 5 ++++++++++
   }
 
   //Mouse clicked ends here
