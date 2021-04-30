@@ -16,7 +16,7 @@ let state = 0;
 let imageLoopX = 0;
 let imageLoopY = 0;
 let targetSize = 100;
-let barLength = 3500; //Change to change length of loading period (use 3500)
+let barLength = 20; //Change to change length of loading period (use 3500)
 let speed = 0.5; //Speed of files jittering
 let single;
 let greyed;
@@ -85,6 +85,12 @@ function setup() {
   //Define the second the setup function is run
   startSecond = second();
 
+
+  //Resize image assets
+  welcome.resize(width, 0);
+  single.resize(targetSize, targetSize);
+  greyed.resize(targetSize, targetSize);
+
 }
 
 ////////////////////////////////////////////////////////////
@@ -93,10 +99,11 @@ function setup() {
 
 function draw() {
 
+
+
   //Opening state
   if (state == 0) {
     background(0);
-    welcome.resize(width, 0);
     image(welcome, 0, 0);
   }
 
@@ -171,8 +178,6 @@ function draw() {
     //Slow this bit down
     frameRate(20);
     if (imageLoopX < width) {
-      //Resize single file image every time
-      single.resize(targetSize, targetSize);
       //Draw single file
       image(single, imageLoopX, imageLoopY);
       //Increase X position by size of image
@@ -210,52 +215,42 @@ function draw() {
 
         //Voicemail 1
         if (i == 400 && j == 0) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 2
         } else if (i == 500 && j == 0) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 3
         } else if (i == 700 && j == 0) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 4
         } else if (i == 100 && j == 100) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 5
         } else if (i == 300 && j == 100) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 6
         } else if (i == 1100 && j == 200) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 7
         } else if (i == 600 && j == 300) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 8
         } else if (i == 100 && j == 400) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 9
         } else if (i == 400 && j == 400){
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
         
         //Voicemail 10
         } else if (i == 900 && j == 500){
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //++++++++ STEP 3 - CHOOSE POSITION FOR GREY ICON ++++++++++
@@ -264,7 +259,6 @@ function draw() {
 
           //All non-clickable files
         } else {
-          single.resize(targetSize, targetSize);
           image(single, i + random(-speed, speed), j + random(-speed, speed));
         }
       }
@@ -302,59 +296,48 @@ function draw() {
 
         //Voicemail 1
         if (i == 400 && j == 0) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 2
         } else if (i == 500 && j == 0) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 3
         } else if (i == 700 && j == 0) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 4
         } else if (i == 100 && j == 100) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 5
         } else if (i == 300 && j == 100) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 6
         } else if (i == 1100 && j == 200) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 7
         } else if (i == 600 && j == 300) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 8
         } else if (i == 100 && j == 400) {
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //Voicemail 9
         } else if (i == 400 && j == 400){
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
         
         //Voicemail 10
         } else if (i == 900 && j == 500){
-          greyed.resize(targetSize, targetSize);
           image(greyed, i, j);
 
           //++++++++ STEP 4 - REPEAT STEP 3 ++++++++++
 
           //All non-clickable files
         } else {
-          single.resize(targetSize, targetSize);
           image(single, i + random(-speed, speed), j + random(-speed, speed));
         }
       }
