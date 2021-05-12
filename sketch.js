@@ -16,7 +16,7 @@ let state = 0;
 let imageLoopX = 0;
 let imageLoopY = 0;
 let targetSize = 100;
-let barLength = 20; //Change to change length of loading period (use 3500)
+let barLength = 3500; //Change to change length of loading period (use 3500)
 let speed = 0.5; //Speed of files jittering
 let single;
 let yellowPlay;
